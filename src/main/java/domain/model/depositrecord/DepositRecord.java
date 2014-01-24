@@ -35,4 +35,8 @@ public class DepositRecord implements Entity<DepositRecord> {
     public Money getMoney() {
         return money;
     }
+
+    public AccountNumber getAccountNumber() {
+        return accountNumber;
+    }
 }

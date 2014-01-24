@@ -12,7 +12,7 @@ public class DepositRecordId implements ValueObject<DepositRecordId> {
 
     @Override
     public boolean sameValueAs(DepositRecordId other) {
-        return false;
+        return this.depositId.equals(other.depositId);
     }
 
     public String getDepositId() {

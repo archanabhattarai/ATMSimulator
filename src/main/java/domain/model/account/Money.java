@@ -14,7 +14,14 @@ public class Money implements ValueObject<Money> {
 
     @Override
     public boolean sameValueAs(Money other) {
+        if (sameCurrencyAs(other) && sameAmountAs(other)) {
+            return true;
+        }
         return false;
+    }
+
+    private boolean sameAmountAs(Money other) {
+        return this.amount == other.getAmount();
     }
 
     public Long getAmount() {

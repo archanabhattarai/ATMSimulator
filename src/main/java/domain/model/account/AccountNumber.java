@@ -12,7 +12,7 @@ public final class AccountNumber implements ValueObject<AccountNumber> {
 
     @Override
     public boolean sameValueAs(AccountNumber other) {
-        return false;
+        return this.accountNumber.equals(other.accountNumber);
     }
 
     public String getAccountNumber() {
