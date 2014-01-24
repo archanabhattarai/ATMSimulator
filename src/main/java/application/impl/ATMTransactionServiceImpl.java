@@ -6,7 +6,6 @@ import domain.model.account.AccountRepository;
 import domain.model.account.Money;
 import domain.model.account.exception.InsufficientFundException;
 import domain.model.depositrecord.DepositRecord;
-import domain.model.depositrecord.DepositRecord;
 import domain.model.depositrecord.DepositRecordRepository;
 
 
