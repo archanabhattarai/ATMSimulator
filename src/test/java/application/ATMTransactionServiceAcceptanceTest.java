@@ -5,9 +5,9 @@ import domain.model.account.*;
 import domain.model.account.exception.InsufficientFundException;
 import domain.model.depositrecord.DepositRecord;
 import domain.model.depositrecord.DepositRecordId;
-import domain.model.depositrecord.DepositRecord;
-import domain.model.depositrecord.DepositRecordId;
+import domain.model.depositrecord.DepositRecordRepository;
 import infrastructure.persistence.account.AccountRepositoryInMem;
+import infrastructure.persistence.depositRecord.DepositRecordRepositoryInMem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +21,7 @@ public class ATMTransactionServiceAcceptanceTest {
 
     private ATMTransactionService atmTransactionService;
     private AccountRepository accountRepository;
+    private DepositRecordRepository depositRecordRepository;
     private Money money;
     private Account account;
 
@@ -28,7 +29,8 @@ public class ATMTransactionServiceAcceptanceTest {
     @Before
     public void setUp() throws Exception {
         accountRepository = new AccountRepositoryInMem();
-        atmTransactionService = new ATMTransactionServiceImpl(accountRepository);
+        depositRecordRepository = new DepositRecordRepositoryInMem();
+        atmTransactionService = new ATMTransactionServiceImpl(accountRepository, depositRecordRepository);
         money = new Money(123l, Currency.DOLLAR);
         account = new Account(new AccountNumber("123456"), money);
         accountRepository.create(account);
@@ -46,8 +48,9 @@ public class ATMTransactionServiceAcceptanceTest {
 
     @Test
     public void shouldRegisterDeposit() {
-        DepositRecord depositRecord = new DepositRecord(new DepositRecordId("1234"), new Date(), money);
-        atmTransactionService.registerDeposit(account, depositRecord);
+        DepositRecord depositRecord = new DepositRecord(new DepositRecordId("1234"), new Date(), money, account.getAccountNumber());
+        atmTransactionService.registerDeposit(depositRecord);
+        assertEquals(depositRecord, depositRecordRepository.getForId(depositRecord.getDepositRecordId().getDepositId()));
     }
 
     @Test

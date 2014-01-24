@@ -14,7 +14,7 @@ public interface ATMTransactionService {
 
     Money checkBalanceFor(Account account);
 
-    void registerDeposit(Account account, DepositRecord depositRecord);
+    void registerDeposit(DepositRecord depositRecord);
 
     Money withDrawMoneyFrom(Account account, Money withdrawMoney) throws InsufficientFundException;
 }

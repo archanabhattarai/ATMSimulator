@@ -7,13 +7,16 @@ import domain.model.account.Money;
 import domain.model.account.exception.InsufficientFundException;
 import domain.model.depositrecord.DepositRecord;
 import domain.model.depositrecord.DepositRecord;
+import domain.model.depositrecord.DepositRecordRepository;
 
 
 public class ATMTransactionServiceImpl implements ATMTransactionService {
     private final AccountRepository accountRepository;
+    private final DepositRecordRepository depositRecordRepository;
 
-    public ATMTransactionServiceImpl(AccountRepository accountRepository) {
+    public ATMTransactionServiceImpl(AccountRepository accountRepository, DepositRecordRepository depositRecordRepository) {
         this.accountRepository = accountRepository;
+        this.depositRecordRepository = depositRecordRepository;
     }
 
     @Override
@@ -22,8 +25,8 @@ public class ATMTransactionServiceImpl implements ATMTransactionService {
     }
 
     @Override
-    public void registerDeposit(Account account, DepositRecord depositRecord) {
-
+    public void registerDeposit(DepositRecord depositRecord) {
+          depositRecordRepository.create(depositRecord);
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ATMTransactionServiceImpl implements ATMTransactionService {
             account.deduct(withdrawMoney);
             accountRepository.update(account);
             return withdrawMoney;
-        }else {
+        } else {
             throw new InsufficientFundException();
         }
     }
